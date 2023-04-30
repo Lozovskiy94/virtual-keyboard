@@ -91,6 +91,16 @@ function init () {
 
           break
 
+          case 'Tab':
+            keyElement.classList.add('keyboard__key')
+            keyElement.textContent = key.value.toLowerCase()
+            keyElement.setAttribute('data', `${key.code}`)
+            keyElement.addEventListener('click', () => {
+              textArea.value += '  '
+            })
+  
+            break
+
         case 'shift':
           keyElement.classList.add('keyboard__key_wide')
           keyElement.textContent = key.value.toLowerCase()
@@ -137,6 +147,9 @@ function init () {
     }
       else if (event.keyCode === 13) {
         textArea.value += '\n'
+      }
+      else if (event.keyCode === 9) {
+        textArea.value += '  '
       }
      else {
       textArea.value += event.key
