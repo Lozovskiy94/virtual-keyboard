@@ -68,7 +68,7 @@ function init () {
             keyElement.classList.contains('keyboard__key_active') ? caps = true : caps = false
             toggleCapsLockHandler()
           })
-          //   textArea.value += ''
+
           break
 
         case 'enter':
@@ -76,8 +76,7 @@ function init () {
           keyElement.innerHTML = createIconHTML('keyboard_return')
           keyElement.setAttribute('data', `${key.code}`)
           keyElement.addEventListener('click', () => {
-            this.properties.value += '\n'
-            this._triggerEvent('oninput')
+            textArea.value += '\n'
           })
 
           break
@@ -135,7 +134,11 @@ function init () {
       toggleCapsLockHandler()
     } else if (event.keyCode === 8) {
       textArea.value = textArea.value.substring(0, textArea.value.length - 1)
-    } else {
+    }
+      else if (event.keyCode === 13) {
+        textArea.value += '\n'
+      }
+     else {
       textArea.value += event.key
     }
   }
