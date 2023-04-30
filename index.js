@@ -13,6 +13,15 @@ function init () {
   textArea.classList.add('text-area')
   textArea.setAttribute('rows', '5')
   textArea.setAttribute('col', '50')
+  textArea.addEventListener('focus', (e) => {
+    document.addEventListener('keydown', visualKeyDownHandler)
+    document.removeEventListener('keydown', keyDownHandle)
+    console.log(e.key)
+  })
+  textArea.addEventListener('blur', () => {
+    document.addEventListener('keydown', keyDownHandle)
+    document.removeEventListener('keydown', visualKeyDownHandler)
+  })
 
   const keyboard = document.createElement('div')
   keyboard.classList.add('keyboard')
@@ -59,6 +68,13 @@ function init () {
 
           break
 
+        case 'del':
+          keyElement.classList.add('keyboard__key')
+          keyElement.textContent = key.value.toLowerCase()
+          keyElement.setAttribute('data', `${key.code}`)
+
+          break
+
         case 'caps':
           keyElement.classList.add('keyboard__key_wide', 'keyboard__key_activatable')
           keyElement.innerHTML = createIconHTML('keyboard_capslock')
@@ -91,15 +107,15 @@ function init () {
 
           break
 
-          case 'Tab':
-            keyElement.classList.add('keyboard__key')
-            keyElement.textContent = key.value.toLowerCase()
-            keyElement.setAttribute('data', `${key.code}`)
-            keyElement.addEventListener('click', () => {
-              textArea.value += '  '
-            })
-  
-            break
+        case 'Tab':
+          keyElement.classList.add('keyboard__key')
+          keyElement.textContent = key.value.toLowerCase()
+          keyElement.setAttribute('data', `${key.code}`)
+          keyElement.addEventListener('click', () => {
+            textArea.value += '  '
+          })
+
+          break
 
         case 'shift':
           keyElement.classList.add('keyboard__key_wide')
@@ -114,6 +130,7 @@ function init () {
 
           keyElement.addEventListener('click', () => {
             caps === true ? keyElement.innerHTML.toUpperCase() : keyElement.innerHTML.toLowerCase()
+
             textArea.value += keyElement.innerHTML
           })
 
@@ -132,29 +149,7 @@ function init () {
 
   createKeys()
 
-  document.onkeydown = function (event) {
-    console.log(event.code)
-    const button = document.querySelector(`.keyboard__key[data="${event.keyCode}"]`)
-    button.classList.add('active')
-
-    if (event.keyCode === 20) {
-      button.classList.toggle('keyboard__key_active')
-      textArea.value += ''
-      button.classList.contains('keyboard__key_active') ? caps = true : caps = false
-      toggleCapsLockHandler()
-    } else if (event.keyCode === 8) {
-      textArea.value = textArea.value.substring(0, textArea.value.length - 1)
-    }
-      else if (event.keyCode === 13) {
-        textArea.value += '\n'
-      }
-      else if (event.keyCode === 9) {
-        textArea.value += '  '
-      }
-     else {
-      textArea.value += event.key
-    }
-  }
+  document.addEventListener('keydown', keyDownHandle)
 
   document.onkeyup = () => {
     const buttons = document.querySelectorAll('.keyboard__key')
@@ -169,7 +164,48 @@ function toggleCapsLockHandler () {
 
   for (const key of buttons) {
     if (key.childElementCount === 0) {
-      caps ? key.textContent = key.textContent.toUpperCase() : key.textContent = key.textContent.toLowerCase()
+      console.log(key.textContent)
+      if (key.textContent !== 'alt' && key.textContent !== 'win' && key.textContent !== 'ctrl' && key.textContent !== 'tab' && key.textContent !== 'shift' && key.textContent !== 'del') {
+        caps ? key.textContent = key.textContent.toUpperCase() : key.textContent = key.textContent.toLowerCase()
+      }
     }
   }
+}
+
+function keyDownHandle (event) {
+  const button = document.querySelector(`.keyboard__key[data="${event.keyCode}"]`)
+  button.classList.add('active')
+  const area = document.querySelector('.text-area')
+  if (event.keyCode === 20) {
+    button.classList.toggle('keyboard__key_active')
+    area.value += ''
+    button.classList.contains('keyboard__key_active') ? caps = true : caps = false
+    toggleCapsLockHandler()
+  } else if (event.keyCode === 8) {
+    area.value = area.value.substring(0, area.value.length - 1)
+  } else if (event.keyCode === 13) {
+    area.value += '\n'
+  } else if (event.keyCode === 9) {
+    area.value += '  '
+  } else if (event.keyCode === 37) {
+    area.value += '◄'
+  } else if (event.keyCode === 38) {
+    area.value += '▲'
+  } else if (event.keyCode === 39) {
+    area.value += '►'
+  } else if (event.keyCode === 40) {
+    area.value += '▼'
+  } else {
+    area.value += event.key
+  }
+}
+
+function visualKeyDownHandler (e) {
+  const button = document.querySelector(`.keyboard__key[data="${event.keyCode}"]`)
+  button.classList.add('active')
+  if (e.key === 'CapsLock') {
+    button.classList.toggle('keyboard__key_active')
+  }
+  button.classList.contains('keyboard__key_active') ? caps = true : caps = false
+  toggleCapsLockHandler()
 }

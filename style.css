@@ -46,6 +46,11 @@ body {
     color: #fff;
     font-size: 20px;
     cursor: pointer;
+    transition: all 0.3s;
+}
+
+.keyboard__key:hover {
+    background: #cf9b4d;
 }
 
 .keyboard__key:active {
