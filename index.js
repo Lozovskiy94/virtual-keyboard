@@ -18,10 +18,12 @@ function init () {
   textArea.classList.add('text-area')
   textArea.setAttribute('rows', '5')
   textArea.setAttribute('col', '50')
-  textArea.addEventListener('focus', (e) => {
-    document.addEventListener('keydown', visualKeyDownHandler)
-    document.removeEventListener('keydown', keyDownHandle)
-    console.log(e.key)
+  // textArea.addEventListener('focus', (e) => {
+  //   document.addEventListener('keydown', visualKeyDownHandler)
+  //   document.removeEventListener('keydown', keyDownHandle)
+  // })
+  textArea.addEventListener('keydown', (event) => {
+    event.preventDefault()
   })
   textArea.addEventListener('blur', () => {
     document.addEventListener('keydown', keyDownHandle)
@@ -68,8 +70,15 @@ function init () {
           keyElement.classList.add('keyboard__key_wide')
           keyElement.innerHTML = createIconHTML('backspace')
           keyElement.setAttribute('data', `${key.code}`)
+
           keyElement.addEventListener('click', () => {
-            textArea.value = textArea.value.substring(0, textArea.value.length - 1)
+            let caretPosition = textArea.selectionStart
+            if (caretPosition === 0) {
+              return
+            }
+            textArea.value = textArea.value.slice(0, caretPosition - 1) + textArea.value.slice(caretPosition)
+            textArea.focus()
+            caretPosition = textArea.setSelectionRange(caretPosition - 1, caretPosition - 1)
           })
 
           break
@@ -78,7 +87,15 @@ function init () {
           keyElement.classList.add('keyboard__key')
           keyElement.textContent = key.value[options.lang].toLowerCase()
           keyElement.setAttribute('data', `${key.code}`)
-
+          keyElement.addEventListener('click', () => {
+            let caretPosition = textArea.selectionStart
+            if (caretPosition === textArea.length - 1) {
+              return
+            }
+            textArea.value = textArea.value.slice(0, caretPosition) + textArea.value.slice(caretPosition + 1)
+            textArea.focus()
+            caretPosition = textArea.setSelectionRange(caretPosition, caretPosition)
+          })
           break
 
         case 'caps':
@@ -98,7 +115,14 @@ function init () {
           keyElement.innerHTML = createIconHTML('keyboard_return')
           keyElement.setAttribute('data', `${key.code}`)
           keyElement.addEventListener('click', () => {
-            textArea.value += '\n'
+            // textArea.value += '\n'
+            let caretPosition = textArea.selectionStart
+            const str = ''
+            textArea.value.length += 1
+            textArea.value = str.concat(textArea.value.slice(0, caretPosition), '\n', textArea.value.slice(caretPosition, textArea.value.length))
+            console.log(caretPosition)
+            textArea.focus()
+            caretPosition = textArea.setSelectionRange(caretPosition + 1, caretPosition + 1)
           })
 
           break
@@ -108,7 +132,13 @@ function init () {
           keyElement.innerHTML = createIconHTML('space_bar')
           keyElement.setAttribute('data', `${key.code}`)
           keyElement.addEventListener('click', () => {
-            textArea.value += ' '
+            let caretPosition = textArea.selectionStart
+            const str = ''
+            textArea.value.length += 1
+            textArea.value = str.concat(textArea.value.slice(0, caretPosition), ' ', textArea.value.slice(caretPosition, textArea.value.length))
+            console.log(caretPosition)
+            textArea.focus()
+            caretPosition = textArea.setSelectionRange(caretPosition + 1, caretPosition + 1)
           })
 
           break
@@ -118,7 +148,44 @@ function init () {
           keyElement.textContent = key.value[options.lang].toLowerCase()
           keyElement.setAttribute('data', `${key.code}`)
           keyElement.addEventListener('click', () => {
-            textArea.value += '  '
+            // textArea.value += '  '
+            let caretPosition = textArea.selectionStart
+            const str = ''
+            textArea.value.length += 1
+            textArea.value = str.concat(textArea.value.slice(0, caretPosition), '  ', textArea.value.slice(caretPosition, textArea.value.length))
+            console.log(caretPosition)
+            textArea.focus()
+            caretPosition = textArea.setSelectionRange(caretPosition + 2, caretPosition + 2)
+          })
+
+          break
+
+        case 'Alt':
+          keyElement.classList.add('keyboard__key')
+          keyElement.textContent = key.value[options.lang].toLowerCase()
+          keyElement.setAttribute('data', `${key.code}`)
+          keyElement.addEventListener('click', () => {
+            textArea.value += ''
+          })
+
+          break
+
+        case 'ctrl':
+          keyElement.classList.add('keyboard__key')
+          keyElement.textContent = key.value[options.lang].toLowerCase()
+          keyElement.setAttribute('data', `${key.code}`)
+          keyElement.addEventListener('click', () => {
+            textArea.value += ''
+          })
+
+          break
+
+        case 'win':
+          keyElement.classList.add('keyboard__key')
+          keyElement.textContent = key.value[options.lang].toLowerCase()
+          keyElement.setAttribute('data', `${key.code}`)
+          keyElement.addEventListener('click', () => {
+            textArea.value += ''
           })
 
           break
@@ -136,8 +203,14 @@ function init () {
 
           keyElement.addEventListener('click', () => {
             options.caps === true ? keyElement.innerHTML.toUpperCase() : keyElement.innerHTML.toLowerCase()
-
-            textArea.value += keyElement.innerHTML
+            let caretPosition = textArea.selectionStart
+            // keyElement.innerHTML
+            const str = ''
+            textArea.value.length += 1
+            textArea.value = str.concat(textArea.value.slice(0, caretPosition), keyElement.innerHTML, textArea.value.slice(caretPosition, textArea.value.length))
+            console.log(caretPosition)
+            textArea.focus()
+            caretPosition = textArea.setSelectionRange(caretPosition + 1, caretPosition + 1)
           })
 
           break
@@ -162,7 +235,7 @@ function init () {
     buttons.forEach(btn => btn.classList.remove('active'))
   }
 
-  function runOnKeys (func, ...codes) {
+  function changeLangHandler (func, ...codes) {
     const pressed = new Set()
 
     document.addEventListener('keydown', function (event) {
@@ -184,20 +257,28 @@ function init () {
     })
   }
 
-  runOnKeys(
+  changeLangHandler(
     () => {
       if (options.lang === 'ru') {
         options.lang = 'en'
         langHeader.innerHTML = `Язык ${(options.lang).toUpperCase()}`
         keyboardKeys.innerHTML = null
         createKeys()
-        document.addEventListener('keydown', keyDownHandle)
+        if (document.activeElement === textArea) {
+          textArea.setAttribute('lang', `${options.lang}`)
+        } else {
+          document.addEventListener('keydown', keyDownHandle)
+        }
       } else if (options.lang === 'en') {
         options.lang = 'ru'
         langHeader.innerHTML = `Язык ${(options.lang).toUpperCase()}`
         keyboardKeys.innerHTML = null
         createKeys()
-        document.addEventListener('keydown', keyDownHandle)
+        if (document.activeElement === textArea) {
+          textArea.setAttribute('lang', `${options.lang}`)
+        } else {
+          document.addEventListener('keydown', keyDownHandle)
+        }
       }
     },
     'AltLeft',
@@ -230,7 +311,12 @@ function keyDownHandle (event) {
     button.classList.contains('keyboard__key_active') ? options.caps = true : options.caps = false
     toggleCapsLockHandler()
   } else if (event.keyCode === 8) {
-    area.value = area.value.substring(0, area.value.length - 1)
+    let caretPosition = area.selectionStart
+    if (caretPosition === 0) {
+      return
+    }
+    area.value = area.value.slice(0, caretPosition - 1) + area.value.slice(caretPosition)
+    caretPosition = area.setSelectionRange(caretPosition - 1, caretPosition - 1)
   } else if (event.keyCode === 13) {
     area.value += '\n'
   } else if (event.keyCode === 9) {
@@ -243,6 +329,21 @@ function keyDownHandle (event) {
     area.value += '►'
   } else if (event.keyCode === 40) {
     area.value += '▼'
+  } else if (event.keyCode === 32) {
+    area.value += ' '
+  } else if (event.code === 'AltRight' || event.code === 'AltLeft') {
+    area.value += ''
+  } else if (event.code === 'ControlRight' || event.code === 'ControlLeft') {
+    area.value += ''
+  } else if (event.keyCode === 91) {
+    area.value += ''
+  } else if (event.keyCode === 46) {
+    let caretPosition = area.selectionStart
+    if (caretPosition === area.length - 1) {
+      return
+    }
+    area.value = area.value.slice(0, caretPosition) + area.value.slice(caretPosition + 1)
+    caretPosition = area.setSelectionRange(caretPosition, caretPosition)
   } else {
     area.value += button.innerHTML
   }
