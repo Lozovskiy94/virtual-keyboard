@@ -1,6 +1,8 @@
-let caps = false
+const options = {
+  caps: false, lang: 'en'
+}
 
-const keys = [{ code: '192', value: '`' }, { code: '49', value: '1' }, { code: '50', value: '2' }, { code: '51', value: '3' }, { code: '52', value: '4' }, { code: '53', value: '5' }, { code: '54', value: '6' }, { code: '55', value: '7' }, { code: '56', value: '8' }, { code: '57', value: '9' }, { code: '48', value: '0' }, { code: '189', value: '-' }, { code: '187', value: '=' }, { code: '8', value: 'backspace', lineBreak: 1 }, { code: '9', value: 'Tab' }, { code: '81', value: 'q' }, { code: '87', value: 'w' }, { code: '69', value: 'e' }, { code: '82', value: 'r' }, { code: '84', value: 't' }, { code: '89', value: 'y' }, { code: '85', value: 'u' }, { code: '73', value: 'i' }, { code: '79', value: 'o' }, { code: '80', value: 'p' }, { code: '219', value: '[' }, { code: '221', value: ']' }, { code: '220', value: '\\' }, { code: '46', value: 'del', lineBreak: 2 }, { code: '20', value: 'caps' }, { code: '65', value: 'a' }, { code: '83', value: 's' }, { code: '68', value: 'd' }, { code: '70', value: 'f' }, { code: '71', value: 'g' }, { code: '72', value: 'h' }, { code: '74', value: 'j' }, { code: '75', value: 'k' }, { code: '76', value: 'l' }, { code: '186', value: ';' }, { code: '222', value: "'" }, { code: '13', value: 'enter', lineBreak: 3 }, { code: '16', value: 'shift' }, { code: '90', value: 'z' }, { code: '88', value: 'x' }, { code: '67', value: 'c' }, { code: '86', value: 'v' }, { code: '66', value: 'b' }, { code: '78', value: 'n' }, { code: '77', value: 'm' }, { code: '188', value: ',' }, { code: '190', value: '.' }, { code: '191', value: '/' }, { code: '38', value: '▲' }, { code: '16', value: 'shift', lineBreak: 4 }, { code: '17', value: 'ctrl' }, { code: '91', value: 'win' }, { code: '18', value: 'Alt' }, { code: '32', value: 'space' }, { code: '18', value: 'Alt' }, { code: '37', value: '◄' }, { code: '40', value: '▼' }, { code: '39', value: '►' }, { code: '17', value: 'ctrl' }]
+const keys = [{ code: '192', value: { en: '`', ru: 'ё' } }, { code: '49', value: { en: '1', ru: '1' } }, { code: '50', value: { en: '2', ru: '2' } }, { code: '51', value: { en: '3', ru: '3' } }, { code: '52', value: { en: '4', ru: '4' } }, { code: '53', value: { en: '5', ru: '5' } }, { code: '54', value: { en: '6', ru: '6' } }, { code: '55', value: { en: '7', ru: '7' } }, { code: '56', value: { en: '8', ru: '8' } }, { code: '57', value: { en: '9', ru: '9' } }, { code: '48', value: { en: '0', ru: '0' } }, { code: '189', value: { en: '-', ru: '-' } }, { code: '187', value: { en: '=', ru: '=' } }, { code: '8', value: { en: 'backspace', ru: 'backspace' }, lineBreak: 1 }, { code: '9', value: { en: 'Tab', ru: 'Tab' } }, { code: '81', value: { en: 'q', ru: 'й' } }, { code: '87', value: { en: 'w', ru: 'ц' } }, { code: '69', value: { en: 'e', ru: 'у' } }, { code: '82', value: { en: 'r', ru: 'к' } }, { code: '84', value: { en: 't', ru: 'е' } }, { code: '89', value: { en: 'y', ru: 'н' } }, { code: '85', value: { en: 'u', ru: 'г' } }, { code: '73', value: { en: 'i', ru: 'ш' } }, { code: '79', value: { en: 'o', ru: 'щ' } }, { code: '80', value: { en: 'p', ru: 'з' } }, { code: '219', value: { en: '[', ru: 'х' } }, { code: '221', value: { en: ']', ru: 'ъ' } }, { code: '220', value: { en: '\\', ru: '\\' } }, { code: '46', value: { en: 'del', ru: 'del' }, lineBreak: 2 }, { code: '20', value: { en: 'caps', ru: 'caps' } }, { code: '65', value: { en: 'a', ru: 'ф' } }, { code: '83', value: { en: 's', ru: 'ы' } }, { code: '68', value: { en: 'd', ru: 'в' } }, { code: '70', value: { en: 'f', ru: 'а' } }, { code: '71', value: { en: 'g', ru: 'п' } }, { code: '72', value: { en: 'h', ru: 'р' } }, { code: '74', value: { en: 'j', ru: 'о' } }, { code: '75', value: { en: 'k', ru: 'л' } }, { code: '76', value: { en: 'l', ru: 'д' } }, { code: '186', value: { en: ';', ru: 'ж' } }, { code: '222', value: { en: "'", ru: 'э' } }, { code: '13', value: { en: 'enter', ru: 'enter' }, lineBreak: 3 }, { code: '16', value: { en: 'shift', ru: 'shift' } }, { code: '90', value: { en: 'z', ru: 'я' } }, { code: '88', value: { en: 'x', ru: 'ч' } }, { code: '67', value: { en: 'c', ru: 'с' } }, { code: '86', value: { en: 'v', ru: 'м' } }, { code: '66', value: { en: 'b', ru: 'и' } }, { code: '78', value: { en: 'n', ru: 'т' } }, { code: '77', value: { en: 'm', ru: 'ь' } }, { code: '188', value: { en: ',', ru: 'б' } }, { code: '190', value: { en: '.', ru: 'ю' } }, { code: '191', value: { en: '/', ru: '.' } }, { code: '38', value: { en: '▲', ru: '▲' } }, { code: '16', value: { en: 'shift', ru: 'shift' }, lineBreak: 4 }, { code: '17', value: { en: 'ctrl', ru: 'ctrl' } }, { code: '91', value: { en: 'win', ru: 'win' } }, { code: '18', value: { en: 'Alt', ru: 'Alt' } }, { code: '32', value: { en: 'space', ru: 'space' } }, { code: '18', value: { en: 'Alt', ru: 'Alt' } }, { code: '37', value: { en: '◄', ru: '◄' } }, { code: '40', value: { en: '▼', ru: '▼' } }, { code: '39', value: { en: '►', ru: '►' } }, { code: '17', value: { en: 'ctrl', ru: 'ctrl' } }]
 
 function init () {
   const wrapper = document.createElement('div')
@@ -8,6 +10,9 @@ function init () {
 
   const header = document.createElement('h1')
   header.innerHTML = 'RSS Виртуальная клавиатура'
+
+  const langHeader = document.createElement('h2')
+  langHeader.innerHTML = `Язык ${(options.lang).toUpperCase()}`
 
   const textArea = document.createElement('textarea')
   textArea.classList.add('text-area')
@@ -37,6 +42,7 @@ function init () {
 
   document.body.append(wrapper)
   wrapper.append(header)
+  wrapper.append(langHeader)
   wrapper.append(textArea)
   wrapper.append(keyboard)
   wrapper.append(description)
@@ -57,7 +63,7 @@ function init () {
       keyElement.setAttribute('type', 'button')
       keyElement.classList.add('keyboard__key')
 
-      switch (key.value) {
+      switch (key.value[options.lang]) {
         case 'backspace':
           keyElement.classList.add('keyboard__key_wide')
           keyElement.innerHTML = createIconHTML('backspace')
@@ -70,7 +76,7 @@ function init () {
 
         case 'del':
           keyElement.classList.add('keyboard__key')
-          keyElement.textContent = key.value.toLowerCase()
+          keyElement.textContent = key.value[options.lang].toLowerCase()
           keyElement.setAttribute('data', `${key.code}`)
 
           break
@@ -81,7 +87,7 @@ function init () {
           keyElement.setAttribute('data', `${key.code}`)
           keyElement.addEventListener('click', () => {
             keyElement.classList.toggle('keyboard__key_active')
-            keyElement.classList.contains('keyboard__key_active') ? caps = true : caps = false
+            keyElement.classList.contains('keyboard__key_active') ? options.caps = true : options.caps = false
             toggleCapsLockHandler()
           })
 
@@ -109,7 +115,7 @@ function init () {
 
         case 'Tab':
           keyElement.classList.add('keyboard__key')
-          keyElement.textContent = key.value.toLowerCase()
+          keyElement.textContent = key.value[options.lang].toLowerCase()
           keyElement.setAttribute('data', `${key.code}`)
           keyElement.addEventListener('click', () => {
             textArea.value += '  '
@@ -119,17 +125,17 @@ function init () {
 
         case 'shift':
           keyElement.classList.add('keyboard__key_wide')
-          keyElement.textContent = key.value.toLowerCase()
+          keyElement.textContent = key.value[options.lang].toLowerCase()
 
           break
 
         default:
 
-          keyElement.textContent = key.value.toLowerCase()
+          keyElement.textContent = key.value[options.lang].toLowerCase()
           keyElement.setAttribute('data', `${key.code}`)
 
           keyElement.addEventListener('click', () => {
-            caps === true ? keyElement.innerHTML.toUpperCase() : keyElement.innerHTML.toLowerCase()
+            options.caps === true ? keyElement.innerHTML.toUpperCase() : keyElement.innerHTML.toLowerCase()
 
             textArea.value += keyElement.innerHTML
           })
@@ -155,6 +161,48 @@ function init () {
     const buttons = document.querySelectorAll('.keyboard__key')
     buttons.forEach(btn => btn.classList.remove('active'))
   }
+
+  function runOnKeys (func, ...codes) {
+    const pressed = new Set()
+
+    document.addEventListener('keydown', function (event) {
+      pressed.add(event.code)
+
+      for (const code of codes) {
+        if (!pressed.has(code)) {
+          return
+        }
+      }
+
+      pressed.clear()
+
+      func()
+    })
+
+    document.addEventListener('keyup', function (event) {
+      pressed.delete(event.code)
+    })
+  }
+
+  runOnKeys(
+    () => {
+      if (options.lang === 'ru') {
+        options.lang = 'en'
+        langHeader.innerHTML = `Язык ${(options.lang).toUpperCase()}`
+        keyboardKeys.innerHTML = null
+        createKeys()
+        document.addEventListener('keydown', keyDownHandle)
+      } else if (options.lang === 'en') {
+        options.lang = 'ru'
+        langHeader.innerHTML = `Язык ${(options.lang).toUpperCase()}`
+        keyboardKeys.innerHTML = null
+        createKeys()
+        document.addEventListener('keydown', keyDownHandle)
+      }
+    },
+    'AltLeft',
+    'ControlLeft'
+  )
 }
 
 init()
@@ -166,7 +214,7 @@ function toggleCapsLockHandler () {
     if (key.childElementCount === 0) {
       console.log(key.textContent)
       if (key.textContent !== 'alt' && key.textContent !== 'win' && key.textContent !== 'ctrl' && key.textContent !== 'tab' && key.textContent !== 'shift' && key.textContent !== 'del') {
-        caps ? key.textContent = key.textContent.toUpperCase() : key.textContent = key.textContent.toLowerCase()
+        options.caps ? key.textContent = key.textContent.toUpperCase() : key.textContent = key.textContent.toLowerCase()
       }
     }
   }
@@ -179,7 +227,7 @@ function keyDownHandle (event) {
   if (event.keyCode === 20) {
     button.classList.toggle('keyboard__key_active')
     area.value += ''
-    button.classList.contains('keyboard__key_active') ? caps = true : caps = false
+    button.classList.contains('keyboard__key_active') ? options.caps = true : options.caps = false
     toggleCapsLockHandler()
   } else if (event.keyCode === 8) {
     area.value = area.value.substring(0, area.value.length - 1)
@@ -196,7 +244,7 @@ function keyDownHandle (event) {
   } else if (event.keyCode === 40) {
     area.value += '▼'
   } else {
-    area.value += event.key
+    area.value += button.innerHTML
   }
 }
 
@@ -206,6 +254,6 @@ function visualKeyDownHandler (e) {
   if (e.key === 'CapsLock') {
     button.classList.toggle('keyboard__key_active')
   }
-  button.classList.contains('keyboard__key_active') ? caps = true : caps = false
+  button.classList.contains('keyboard__key_active') ? options.caps = true : options.caps = false
   toggleCapsLockHandler()
 }
