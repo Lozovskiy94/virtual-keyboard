@@ -2,6 +2,8 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background: #301B28;
+    color: #DDC5A2;;
 }
 
 .wrapper {
@@ -16,17 +18,19 @@ body {
     display: block;
     width: 700px;
     height: 200px;
+    margin: 30px;
 }
 
 .keyboard {
     width: 100%;
     background: #301B28;
     user-select: none;
-    transition: all 0.3s;
+    transition: all 0.2s;
 }
 
 .keyboard__keys {
     text-align: center;
+    padding: 0 40px;
 }
 
 .keyboard__key {
@@ -41,12 +45,12 @@ body {
     max-width: 90px;
     margin: 3px;
     border-radius: 4px;
-    border: solid 1px #523634;
-    background: #B6452C;
+    border: solid 1px #cf9b4d;
+    background: rgba(182, 69, 44, 0.6);
     color: #fff;
     font-size: 20px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s;
 }
 
 .keyboard__key:hover {

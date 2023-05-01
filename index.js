@@ -165,13 +165,53 @@ function keyDownHandle(event) {
     area.focus();
     caretPosition = area.setSelectionRange(caretPosition + 2, caretPosition + 2);
   } else if (event.keyCode === 37) {
-    area.value += '◄';
+    // area.value += '◄';
+    let caretPosition = area.selectionStart;
+    const str = '';
+    area.value.length += 1;
+    area.value = str.concat(
+      area.value.slice(0, caretPosition),
+      '◄',
+      area.value.slice(caretPosition, area.value.length)
+    );
+    area.focus();
+    caretPosition = area.setSelectionRange(caretPosition + 1, caretPosition + 1);
   } else if (event.keyCode === 38) {
-    area.value += '▲';
+    // area.value += '▲';
+    let caretPosition = area.selectionStart;
+    const str = '';
+    area.value.length += 1;
+    area.value = str.concat(
+      area.value.slice(0, caretPosition),
+      '▲',
+      area.value.slice(caretPosition, area.value.length)
+    );
+    area.focus();
+    caretPosition = area.setSelectionRange(caretPosition + 1, caretPosition + 1);
   } else if (event.keyCode === 39) {
-    area.value += '►';
+    // area.value += '►';
+    let caretPosition = area.selectionStart;
+    const str = '';
+    area.value.length += 1;
+    area.value = str.concat(
+      area.value.slice(0, caretPosition),
+      '►',
+      area.value.slice(caretPosition, area.value.length)
+    );
+    area.focus();
+    caretPosition = area.setSelectionRange(caretPosition + 1, caretPosition + 1);
   } else if (event.keyCode === 40) {
-    area.value += '▼';
+    // area.value += '▼';
+    let caretPosition = area.selectionStart;
+    const str = '';
+    area.value.length += 1;
+    area.value = str.concat(
+      area.value.slice(0, caretPosition),
+      '▼',
+      area.value.slice(caretPosition, area.value.length)
+    );
+    area.focus();
+    caretPosition = area.setSelectionRange(caretPosition + 1, caretPosition + 1);
   } else if (event.keyCode === 32) {
     let caretPosition = area.selectionStart;
     const str = '';
@@ -193,9 +233,7 @@ function keyDownHandle(event) {
     area.value = area.value.slice(0, caretPosition) + area.value.slice(caretPosition + 1);
     caretPosition = area.setSelectionRange(caretPosition, caretPosition);
   } else {
-    // area.value += button.innerHTML
     let caretPosition = area.selectionStart;
-    // keyElement.innerHTML
     const str = '';
     area.value.length += 1;
     area.value = str.concat(
@@ -335,7 +373,6 @@ function init() {
           keyElement.innerHTML = createIconHTML('keyboard_return');
           keyElement.setAttribute('data', `${key.code}`);
           keyElement.addEventListener('click', () => {
-            // textArea.value += '\n'
             let caretPosition = textArea.selectionStart;
             const str = '';
             textArea.value.length += 1;
@@ -366,7 +403,6 @@ function init() {
           keyElement.textContent = key.value[options.lang].toLowerCase();
           keyElement.setAttribute('data', `${key.code}`);
           keyElement.addEventListener('click', () => {
-            // textArea.value += '  '
             let caretPosition = textArea.selectionStart;
             const str = '';
             textArea.value.length += 1;
